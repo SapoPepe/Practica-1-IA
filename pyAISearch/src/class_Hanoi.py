@@ -8,6 +8,8 @@ from pyAISearchProblem.pyState import AISearchState
 class HanoiState(AISearchState):
     def __init__(self):
         self.towers = [[], ["B", "C", "A"], []]
+        self.nivel = 0
+        self.bloques_incorrectos = []
 
     def __str__(self):
         s = " 0123456789\n"
