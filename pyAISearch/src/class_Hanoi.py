@@ -30,7 +30,8 @@ class HanoiState(AISearchState):
         '''
 
     def __eq__(self, s):
-        return (self.nivel == s.nivel) and (self.bloques_incorrectos == s.bloques_incorrectos)
+        return (self.nivel + self.bloques_incorrectos == s.nivel + s.bloques_incorrectos)
+
 
 
 class HanoiPlanning(AISearchProblem):
