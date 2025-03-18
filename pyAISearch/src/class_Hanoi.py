@@ -7,7 +7,7 @@ from pyAISearchProblem.pyState import AISearchState
 
 class HanoiState(AISearchState):
     def __init__(self):
-        self.towers = [[], ["B", "C", "A"], []]
+        self.towers = [[], [], []]
         self.nivel = 0
         self.bloques_incorrectos = []
 
@@ -44,6 +44,8 @@ class HanoiPlanning(AISearchProblem):
     '''
 
     def __init__(self):
+        self.towers = [["B", "C", "A"], [], []]
+        self.target = 0                             #Se comparará con el número de bloques incorrectos
         self.state = HanoiState()
 
 
@@ -66,4 +68,4 @@ class HanoiPlanning(AISearchProblem):
         return sucessors
 
     def isGoal(self, state):
-
+        return state.getBloquesIncorrectos() == self.target
