@@ -26,8 +26,8 @@ class HanoiState(AISearchState):
         for i in range(len(self.towers)):
             for j in range(len(self.towers[i])):
                 if self.towers[i][j] == "C" and j != 0: incorrectos += 1                         # Si la C no se encuentra en la base de la torre, se considera incorrecto
-                if self.towers[i][j] == "B" and j != 1 and j-1 != "C": incorrectos += 1          # Si la B no se encuenta en la segunda posición y no tiene debajo a C, se considera incorrecto
-                if self.towers[i][j] == "A" and j != 2 and j-1 != "B": incorrectos += 1          # Si la A no se encuenta en la tercera posición y no tiene debajo a B, se considera incorrecto
+                if self.towers[i][j] == "B" and (j == 0 or self.towers[i][j-1] != "C"): incorrectos += 1          # Si la B no se encuenta en la segunda posición y no tiene debajo a C, se considera incorrecto
+                if self.towers[i][j] == "A" and (j == 0 or self.towers[i][j-1] != "B"): incorrectos += 1          # Si la A no se encuenta en la tercera posición y no tiene debajo a B, se considera incorrecto
 
         return incorrectos
 
