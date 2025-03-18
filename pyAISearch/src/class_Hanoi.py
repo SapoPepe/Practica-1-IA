@@ -55,8 +55,7 @@ class HanoiPlanning(AISearchProblem):
         return self.state
 
     def canTakeAction(self, a, state):
-        src, _ = a
-        return len(state.towers[src]) != 0
+        return len(state.towers[a[0]]) != 0
 
 
     def takeAction(self, a, state):
