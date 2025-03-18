@@ -13,3 +13,4 @@ if __name__ == '__main__':
         while cn.getFather():
             print(cn.getState())
             cn=cn.getFather()
+        print(pp.state)
