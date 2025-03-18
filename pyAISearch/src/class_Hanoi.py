@@ -44,6 +44,9 @@ class HanoiPlanning(AISearchProblem):
 
     def __init__(self):
         self.state = HanoiState()
+        '''
+            La base de la torre es el la casilla 0 de la lista y la cima la casilla n-1
+        '''
         self.towers = [["B", "C", "A"], [], []]
 
         self.target = 0                             #Se comparará con el número de bloques incorrectos
@@ -59,7 +62,10 @@ class HanoiPlanning(AISearchProblem):
 
 
     def takeAction(self, a, state):
-
+        state_copy = copy.deepcopy(state)
+        bloque = state_copy[a[0]].pop()
+        state_copy[a[1]].append(bloque)
+        return state_copy
 
     # return a collection of action,state,cost
     def sucessors(self, state):
