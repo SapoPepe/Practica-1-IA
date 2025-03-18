@@ -11,7 +11,6 @@ class HanoiState(AISearchState):
     '''
     def __init__(self):
         self.towers = [[], [], []]
-        self.nivel = 0
         self.bloques_incorrectos = 0
 
     def __str__(self):
@@ -33,7 +32,7 @@ class HanoiState(AISearchState):
         return incorrectos
 
     def __eq__(self, s):
-        return (self.nivel + self.bloques_incorrectos == s.nivel + s.bloques_incorrectos)
+        return self.towers == s.towers
 
 
 
@@ -47,9 +46,9 @@ class HanoiPlanning(AISearchProblem):
         '''
             La base de la torre es el la casilla 0 de la lista y la cima la casilla n-1
         '''
-        self.towers = [["A", "C", "B"], [], []]
+        self.state.towers = [["A", "C", "B"], [], []]
 
-        self.target = 0                             #Se comparará con el número de bloques incorrectos
+        self.target = self.state.getH()                            #Se comparará con el número de bloques incorrectos
         # Mover de una torre a otra (origen, destino)
         self.actions = [(0,1), (0,2), (1,0), (1,2), (2,0), (2,1)]
 
@@ -63,8 +62,8 @@ class HanoiPlanning(AISearchProblem):
 
     def takeAction(self, a, state):
         state_copy = copy.deepcopy(state)
-        bloque = state_copy[a[0]].pop()
-        state_copy[a[1]].append(bloque)
+        bloque = state_copy.towers[a[0]].pop()
+        state_copy.towers[a[1]].append(bloque)
         return state_copy
 
     # return a collection of action,state,cost
