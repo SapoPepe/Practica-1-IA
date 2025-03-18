@@ -7,9 +7,7 @@ from pyAISearchProblem.pyState import AISearchState
 
 class HanoiState(AISearchState):
     def __init__(self):
-
-
-
+        self.towers = [[], ["B", "C", "A"], []]
 
     def __str__(self):
         s = " 0123456789\n"
