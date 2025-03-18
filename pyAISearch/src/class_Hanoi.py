@@ -77,4 +77,4 @@ class HanoiPlanning(AISearchProblem):
         return sucessors
 
     def isGoal(self, state):
-        return state.getBloquesIncorrectos() == self.target
+        return state.getH() == self.target
