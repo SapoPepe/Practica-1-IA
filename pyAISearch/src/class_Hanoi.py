@@ -26,9 +26,9 @@ class HanoiState(AISearchState):
         incorrectos = 0
         for i in range(len(self.towers)):
             for j in range(len(self.towers[i])):
-                if self.towers[i][j] == "C" and j+1 != len(self.towers[i]): incorrectos += 1    # Si la C no se encuentra en la última posición de la torre se considera incorrecto
-                if self.towers[i][j] == "B" and j != 1 and j+1 != "C": incorrectos += 1         # Si la B no se encuenta en la segunda posición y no tiene debajo a C, se considera incorrecto
-                if self.towers[i][j] == "A" and j != 2 and j+1 != "B": incorrectos += 1         # Si la A no se encuenta en la tercera posición y no tiene debajo a B, se considera incorrecto
+                if self.towers[i][j] == "C" and j != 0: incorrectos += 1                         # Si la C no se encuentra en la base de la torre, se considera incorrecto
+                if self.towers[i][j] == "B" and j != 1 and j-1 != "C": incorrectos += 1          # Si la B no se encuenta en la segunda posición y no tiene debajo a C, se considera incorrecto
+                if self.towers[i][j] == "A" and j != 2 and j-1 != "B": incorrectos += 1          # Si la A no se encuenta en la tercera posición y no tiene debajo a B, se considera incorrecto
 
         return incorrectos
 
@@ -47,7 +47,7 @@ class HanoiPlanning(AISearchProblem):
         '''
             La base de la torre es el la casilla 0 de la lista y la cima la casilla n-1
         '''
-        self.towers = [["B", "C", "A"], [], []]
+        self.towers = [["A", "C", "B"], [], []]
 
         self.target = 0                             #Se comparará con el número de bloques incorrectos
         # Mover de una torre a otra (origen, destino)
