@@ -50,10 +50,14 @@ class HanoiPlanning(AISearchProblem):
         # Mover de una torre a otra (origen, destino)
         self.actions = [(0,1), (0,2), (1,0), (1,2), (2,0), (2,1)]
 
+
     def getStateInit(self):
         return self.state
 
     def canTakeAction(self, a, state):
+        src, dst = a
+        if len(state.towers[src]) == 0:
+            return False
 
 
     def takeAction(self, a, state):
