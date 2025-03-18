@@ -47,7 +47,8 @@ class HanoiPlanning(AISearchProblem):
         self.towers = [["B", "C", "A"], [], []]
 
         self.target = 0                             #Se comparará con el número de bloques incorrectos
-
+        # Mover de una torre a otra (origen, destino)
+        self.actions = [(0,1), (0,2), (1,0), (1,2), (2,0), (2,1)]
 
     def getStateInit(self):
         return self.state
