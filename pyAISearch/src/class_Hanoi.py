@@ -6,24 +6,18 @@ from pyAISearchProblem.pyState import AISearchState
 
 
 class HanoiState(AISearchState):
+    '''
+    La base de la torre es el la casilla 0 de la lista y la cima la casilla n-1
+    '''
     def __init__(self):
-        self.towers = [[], ["B", "C", "A"], []]
+        self.towers = [[], ["A", "C", "B"], []]
         self.nivel = 0
-        self.bloques_incorrectos = []
+        self.bloques_incorrectos = 0
 
     def __str__(self):
-        s = " 0123456789\n"
-        for row in range(self.map.shape[0]):
-            s += str(row)
-            for col in range(self.map.shape[1]):
-                if (col, row) == self.location:
-                    s += "@"
-                    continue
-                if self.map[row, col] == 0:
-                    s += " "
-                if self.map[row, col] == 1:
-                    s += "#"
-            s += "\n"
+        s = "Torres de Hanoi:\n"
+        for i, tower in enumerate(self.towers):
+            s += f"Torre {i}: {tower}\n"
         return s
 
     ''' return heuristic '''
@@ -31,11 +25,12 @@ class HanoiState(AISearchState):
     def getH(self):
 
 
-    ''' compare two states
-        in this case two states are equal if their location is the same '''
+        ''' compare two states
+        in this case two states are equal if their location is the same
+        '''
 
     def __eq__(self, s):
-
+        return (self.nivel == s.nivel) and (self.bloques_incorrectos == s.bloques_incorrectos) 
 
 
 class HanoiPlanning(AISearchProblem):
@@ -66,4 +61,3 @@ class HanoiPlanning(AISearchProblem):
         return sucessors
 
     def isGoal(self, state):
-
