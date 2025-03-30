@@ -43,13 +43,7 @@ class AITicTocState(object):
         if self.win("A"): return  100
         if self.win("B"): return -100
     def __str__(self):
-        s=""
-        for row in range(3):
-            for col in range(3):
-                s+=self.board[row][col]
-            s+="\n"
-        s+=str(self.depth)+"---"+self.player
-        return s
+        return str(self.board)
 class AITicTocProblem(AISearchProblem):
     def __init__(self, startPlayer="A"):
         self.currentState=AITicTocState(startPlayer)
