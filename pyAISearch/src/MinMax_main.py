@@ -30,7 +30,8 @@ def play(mm):
         print(s)
         r=0
         c=int(input("col="))
-        while not s.isFree((r,c)):
+        freeLocations = s.freeLocations()
+        while (r, c) not in freeLocations:
             r=0
             c=int(input("col="))
         s.setPlayer((r,c))
