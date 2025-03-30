@@ -2,12 +2,14 @@ import copy
 from pyAISearchProblem.pyProblem import AISearchProblem
 class AITicTocState(object):
     def __init__(self,startPlayer="A"):
-        self.board=[[" "," "," "," "," "]]
+        self.board=[["A"," "," "," ","B"]]
         self.depth=0
         self.player=startPlayer #can be "O"
     def setPiece(self,loc,c):
         self.board[loc[0]][loc[1]]=c
     def setPlayer(self,loc):
+        for pos in range(len(self.board[0])):
+            if self.board[0][pos] == self.player: self.board[0][pos] = " "
         self.setPiece(loc,self.player)
     def movePlayer(self,pos):
         newState=copy.deepcopy(self)
@@ -16,7 +18,7 @@ class AITicTocState(object):
         newState.changePlayer()
         return newState
     def winPlayer(self,c):
-        lenght = len(self.board)-1
+        lenght = len(self.board[0])-1
         if (self.board[0][0] == c and c == "B") or (self.board[0][lenght] == c and c == "A"): return True
         return False
     def win(self,c):
@@ -43,7 +45,7 @@ class AITicTocState(object):
         if self.win("A"): return  100
         if self.win("B"): return -100
     def __str__(self):
-        return str(self.board)
+        return str(self.board[0])
 class AITicTocProblem(AISearchProblem):
     def __init__(self, startPlayer="A"):
         self.currentState=AITicTocState(startPlayer)
