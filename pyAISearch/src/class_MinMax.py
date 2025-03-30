@@ -11,9 +11,12 @@ class AITicTocState(object):
                 self.board[0][i] = " "
     def setPiece(self,loc,c):
         self.board[loc[0]][loc[1]]=c
-    def setPlayer(self,loc):
-        self.removePiece(loc, self.player)
-        self.setPiece(loc,self.player)
+    def setPlayer(self, loc):
+        # Eliminar posición actual
+        current_pos = self.board[0].index(self.player)
+        self.board[0][current_pos] = " "
+        # Colocar en nueva posición
+        self.board[loc[0]][loc[1]] = self.player
     def movePlayer(self,pos):
         newState=copy.deepcopy(self)
         newState.setPlayer(pos)
@@ -21,28 +24,34 @@ class AITicTocState(object):
         newState.changePlayer()
         return newState
     def winPlayer(self,c):
-        lenght = len(self.board[0])-1
-        if (self.board[0][0] == c and c == "B") or (self.board[0][lenght] == c and c == "A"): return True
+        length = len(self.board[0])-1
+        if (self.board[0][0] == c and c == "B") or (self.board[0][length] == c and c == "A"):
+            return True
         return False
     def win(self,c):
         return self.winPlayer(c)
     def isFree(self,loc):
         return self.board[loc[0]][loc[1]]==" "
     def freeLocations(self):
-        holes=[]
+        holes = []
         row = 0
-        pos = self.board[0].index(self.player)
+        current_pos = self.board[0].index(self.player)
         length = len(self.board[0])
-
-        if pos - 1 >= 0 and self.isFree((row, pos - 1)):
-            holes.append((row, pos - 1))
-        elif pos - 2 >=0 : holes.append((row, pos-2))
-
-        if pos + 1 < length and self.isFree((row, pos + 1)):
-            holes.append((row, pos + 1))
-        elif pos + 2 < length: holes.append((row, pos+2))
-
-
+        
+        if self.player == "A":
+            # Moverse a la derecha
+            if current_pos + 1 < length:
+                if self.isFree((row, current_pos + 1)):
+                    holes.append((row, current_pos + 1))
+                elif current_pos + 2 < length and self.isFree((row, current_pos + 2)):
+                    holes.append((row, current_pos + 2))
+        else:  # Jugador "B"
+            # Moverse a la izquierda
+            if current_pos - 1 >= 0:
+                if self.isFree((row, current_pos - 1)):
+                    holes.append((row, current_pos - 1))
+                elif current_pos - 2 >= 0 and self.isFree((row, current_pos - 2)):
+                    holes.append((row, current_pos - 2))
         return holes
     def changePlayer(self):
         if self.player=="A":
@@ -54,8 +63,9 @@ class AITicTocState(object):
     def isTerminal(self):
         return self.win("A") or self.win("B")
     def utility(self):
-        if self.win("A"): return  100
-        if self.win("B"): return -100
+        if self.win("A"): return  1000
+        if self.win("B"): return -1000
+        else: return 0
     def __str__(self):
         return str(self.board[0])
 class AITicTocProblem(AISearchProblem):
