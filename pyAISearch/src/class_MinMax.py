@@ -1,10 +1,8 @@
 import copy
 from pyAISearchProblem.pyProblem import AISearchProblem
 class AITicTocState(object):
-    def __init__(self,startPlayer="X"):
-        self.board=[[" "," "," "],
-                    [" "," "," "],
-                    [" "," "," "]]
+    def __init__(self,startPlayer="A"):
+        self.board=[[" "," "," "," "," "]]
         self.depth=0
         self.player=startPlayer #can be "O"
     def setPiece(self,loc,c):
@@ -17,16 +15,13 @@ class AITicTocState(object):
         newState.incDepth()
         newState.changePlayer()
         return newState
-    def winColum(self,col,c):
-        if self.board[0][col]==c and self.board[1][col]==c and self.board[2][col]==c :
+    def winPlayer(self,c):
+        lenght = len(self.board)-1
+        if (self.board[0][0] == c and c == "B") or (self.board[0][lenght] == c and c == "A"):
             return True
         return False
-    def winColums(self,c):
-        for col in range(3):
-            if self.winColum(col,c): return True
-        return False
     def win(self,c):
-        return self.winColums(c)
+        return self.winPlayer(c)
     def count(self,c):
         counter=0
         for row in range(3):
@@ -64,7 +59,7 @@ class AITicTocState(object):
         s+=str(self.depth)+"---"+self.player
         return s
 class AITicTocProblem(AISearchProblem):
-    def __init__(self, startPlayer="X"):
+    def __init__(self, startPlayer="A"):
         self.currentState=AITicTocState(startPlayer)
     def expand(self,state):
         successors=[]
