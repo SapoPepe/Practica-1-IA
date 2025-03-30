@@ -2,17 +2,6 @@
 from class_MinMax import AITicTocProblem,AITicTocState
 from pyAIMinMax import AIMinMax
 
-def chooseMaxLocation(mm,state):
-    maxV=-1000
-    maxP = None
-    for pos in state.freeLocations():
-        newState=state.movePlayer(pos)
-        v=mm.minValue(newState)
-        if v>maxV:
-            maxV=v
-            maxP=pos
-    return maxP, maxV if maxP else None
-
 def chooseMinLocation(mm, state):
     minV = 1000
     minP = None
@@ -38,7 +27,7 @@ def play(mm):
         s.changePlayer()
         if s.isTerminal(): break
         print(s)
-        pos, v = chooseMaxLocation(mm, s)
+        pos, v = chooseMinLocation(mm, s)
         s.setPlayer(pos)
         s.changePlayer()
     print(s)
