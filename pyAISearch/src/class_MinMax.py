@@ -17,8 +17,7 @@ class AITicTocState(object):
         return newState
     def winPlayer(self,c):
         lenght = len(self.board)-1
-        if (self.board[0][0] == c and c == "B") or (self.board[0][lenght] == c and c == "A"):
-            return True
+        if (self.board[0][0] == c and c == "B") or (self.board[0][lenght] == c and c == "A"): return True
         return False
     def win(self,c):
         return self.winPlayer(c)
@@ -33,23 +32,23 @@ class AITicTocState(object):
         return self.board[loc[0]][loc[1]]==" "
     def freeLocations(self):
         holes=[]
-        for row in range(3):
-            for col in range(3):
-                if self.isFree((row,col)):
-                    holes.append((row,col))
+        row = 0
+        lenght = len(self.board)
+        for col in range(lenght):
+            if self.isFree((row,col)): holes.append((row,col))
         return holes
     def changePlayer(self):
-        if self.player=="X":
-            self.player="O"
+        if self.player=="A":
+            self.player="B"
             return
-        self.player="X"
+        self.player="A"
     def incDepth(self):
         self.depth+=1
     def isTerminal(self):
-        return self.win("X") or self.win("O")
+        return self.win("A") or self.win("B")
     def utility(self):
-        if self.win("X"): return  100
-        if self.win("O"): return -100
+        if self.win("A"): return  100
+        if self.win("B"): return -100
     def __str__(self):
         s=""
         for row in range(3):
