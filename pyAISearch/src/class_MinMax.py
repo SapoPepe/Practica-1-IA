@@ -35,23 +35,18 @@ class AITicTocState(object):
     def freeLocations(self):
         holes = []
         row = 0
-        current_pos = self.board[0].index(self.player)
+        pos = self.board[0].index(self.player)
         length = len(self.board[0])
-        
-        if self.player == "A":
-            # Moverse a la derecha
-            if current_pos + 1 < length:
-                if self.isFree((row, current_pos + 1)):
-                    holes.append((row, current_pos + 1))
-                elif current_pos + 2 < length and self.isFree((row, current_pos + 2)):
-                    holes.append((row, current_pos + 2))
-        else:  # Jugador "B"
-            # Moverse a la izquierda
-            if current_pos - 1 >= 0:
-                if self.isFree((row, current_pos - 1)):
-                    holes.append((row, current_pos - 1))
-                elif current_pos - 2 >= 0 and self.isFree((row, current_pos - 2)):
-                    holes.append((row, current_pos - 2))
+        if pos - 1 >= 0 and self.isFree((row, pos - 1)):
+            holes.append((row, pos - 1))
+        elif pos - 2 >= 0:
+            holes.append((row, pos - 2))
+
+        if pos + 1 < length and self.isFree((row, pos + 1)):
+            holes.append((row, pos + 1))
+        elif pos + 2 < length:
+            holes.append((row, pos + 2))
+
         return holes
     def changePlayer(self):
         if self.player=="A":
