@@ -5,11 +5,14 @@ class AITicTocState(object):
         self.board=[["A"," "," "," ","B"]]
         self.depth=0
         self.player=startPlayer #can be "O"
+    def removePiece(self, loc, c):
+        for i in range(5):
+            if self.board[0][i] == c:
+                self.board[0][i] = " "
     def setPiece(self,loc,c):
         self.board[loc[0]][loc[1]]=c
     def setPlayer(self,loc):
-        for pos in range(len(self.board[0])):
-            if self.board[0][pos] == self.player: self.board[0][pos] = " "
+        self.removePiece(loc, self.player)
         self.setPiece(loc,self.player)
     def movePlayer(self,pos):
         newState=copy.deepcopy(self)

@@ -1,4 +1,6 @@
-from class_MinMax import AITicTocProblem, AITicTocState
+
+from class_MinMax import AITicTocProblem,AITicTocState
+
 from pyAIMinMax import AIMinMax
 def chooseMaxLocation(mm,state):
     maxV=-1000
