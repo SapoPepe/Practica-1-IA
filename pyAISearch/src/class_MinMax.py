@@ -21,13 +21,6 @@ class AITicTocState(object):
         return False
     def win(self,c):
         return self.winPlayer(c)
-    def count(self,c):
-        counter=0
-        for row in range(3):
-            for col in range(3):
-                if self.board[row][col]==c:
-                    counter+=1
-        return counter
     def isFree(self,loc):
         return self.board[loc[0]][loc[1]]==" "
     def freeLocations(self):

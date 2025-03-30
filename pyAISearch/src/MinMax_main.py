@@ -10,7 +10,28 @@ def chooseMaxLocation(mm,state):
             maxP=pos
     return maxP,v
 def play(mm):
-    s=AITicTocState("O")
+    s=AITicTocState("A")
+    while not s.isTerminal():
+        print(s)
+        r=0
+        c=int(input("col="))
+        while not s.isFree((r,c)):
+            r=0
+            c=int(input("col="))
+        s.setPlayer((r,c))
+        s.changePlayer()
+        if s.isTerminal(): break
+        print(s)
+        pos,v=chooseMaxLocation(mm, s)
+        s.setPlayer(pos)
+        s.changePlayer()
+    print(s)
+    if s.win("A"):
+        print("A wins")
+    if s.win("B"):
+        print("B wins")
+    if not s.win("A") and not s.win("B"):
+        print("Draw")
 
 if __name__ == '__main__':
     p=AITicTocProblem()
