@@ -34,6 +34,11 @@ class HanoiState(AISearchState):
     def __eq__(self, s):
         return self.towers == s.towers
 
+    def imprimir_por_nivel(self, nivel):
+        s = "\t" * nivel +"Torres de Hanoi:\n"
+        for i, tower in enumerate(self.towers):
+            s += "\t" * nivel + f"Torre {i}: {tower}\n"
+        return s
 
 
 class HanoiPlanning(AISearchProblem):
