@@ -57,9 +57,9 @@ class AITicTocState(object):
     def isTerminal(self):
         return self.win("A") or self.win("B")
     def utility(self):
-        if self.win("A"): return  1000
-        if self.win("B"): return -1000
-        distancia_A = length = 4 - self.board[0].index("A")
+        if self.win("A"): return  float('inf')
+        if self.win("B"): return -float('inf')
+        distancia_A = 4 - self.board[0].index("A")
         distancia_B = self.board[0].index("B")
         return distancia_B - distancia_A
     def __str__(self):

@@ -8,12 +8,20 @@ tree = []
 user_moves = []
 
 def chooseMinLocation(mm, state):
-    minV = 1000
+    minV = 1e100
     minP = None
     for pos in state.freeLocations():
         newState = state.movePlayer(pos)
         v = mm.maxValue(newState)
-        tree.append((copy.deepcopy(state), copy.deepcopy(newState), v))
+        if newState.win("A"): 
+            e = float('inf')
+        elif newState.win("B"): 
+            e = -float('inf')
+        else:
+            distancia_A = 4 - newState.board[0].index("A")
+            distancia_B = newState.board[0].index("B")
+            e = distancia_B - distancia_A
+        tree.append((copy.deepcopy(state), copy.deepcopy(newState), e))
         
         if v < minV:
             minV = v
