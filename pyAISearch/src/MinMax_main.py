@@ -1,11 +1,12 @@
 from collections import defaultdict
 
-from class_MinMax import AITicTocProblem,AITicTocState
+from class_MinMax import AITicTocProblem, AITicTocState
 from pyAIMinMax import AIMinMax
 import copy
 
 tree = []
 user_moves = []
+ai_moves = []
 
 def chooseMinLocation(mm, state):
     minV = 1e100
@@ -29,22 +30,23 @@ def chooseMinLocation(mm, state):
     return minP, minV
 
 def play(mm):
-    s=AITicTocState("A")
+    s = AITicTocState("A")
     while not s.isTerminal():
         print(s)
-        r=0
-        c=int(input("col="))
+        r = 0
+        c = int(input("col="))
         freeLocations = s.freeLocations()
         while (r, c) not in freeLocations:
-            r=0
-            c=int(input("col="))
-        s.setPlayer((r,c))
+            r = 0
+            c = int(input("col="))
+        s.setPlayer((r, c))
         s.changePlayer()
         user_moves.append(copy.deepcopy(s))
         if s.isTerminal(): break
         print(s)
         pos, v = chooseMinLocation(mm, s)
         s.setPlayer(pos)
+        ai_moves.append(copy.deepcopy(s))
         s.changePlayer()
     print(s)
     final_move = copy.deepcopy(s)
@@ -56,7 +58,7 @@ def play(mm):
         print("Draw")
     return final_move
 
-def print_tree(tree, user_moves,final_move):
+def print_tree(tree, user_moves, ai_moves, final_move):
     arbol = defaultdict(list)
 
     for padre, hijo, v in tree:
@@ -70,10 +72,11 @@ def print_tree(tree, user_moves,final_move):
             arbol[padre].append((hijo, v))
 
     nivel = 0
+    ai_move_index = 0
 
     print()
     print("Árbol completo:")
-    for move in user_moves:
+    for i, move in enumerate(user_moves):
         current_parent = None
         for key in arbol.keys():
             if key.board == move.board:
@@ -83,22 +86,25 @@ def print_tree(tree, user_moves,final_move):
         if nivel == 0:
             print("Estado inicial:")
         else:
-            print("Movimiento elegido:")
+            print("Movimiento de A:")
         print(nivel * "\t" + str(move.board))
-        print("Movimiento del usuario:")
-        if current_parent:
-            print(nivel * "\t" + str(current_parent.board))
-        print("Posibles movimientos de la IA con valores:")
+
+        print("Posibles movimientos de B:")
         if current_parent:
             for child, value in arbol[current_parent]:
-                print((nivel + 1) * "\t" + f"{child.board} (Valor: {value})")
+                print((nivel + 1) * "\t" + f"{child.board} (e: {value})")
+       
+        if ai_move_index < len(ai_moves):
+            print("Movimiento elegido por B:")
+            print((nivel + 1) * "\t" + str(ai_moves[ai_move_index].board))
+            ai_move_index += 1
+
         nivel += 1
 
-    print("Estado final: " + str(final_move.board))
+    print("\nEstado final: " + str(final_move.board))
 
 if __name__ == '__main__':
-    p=AITicTocProblem()
-    mm=AIMinMax(p)
-    final_move=play(mm)
-    print_tree(tree, user_moves, final_move)
-
+    p = AITicTocProblem()
+    mm = AIMinMax(p)
+    final_move = play(mm)
+    print_tree(tree, user_moves, ai_moves, final_move)
