@@ -23,10 +23,9 @@ class AITicTocState(object):
         newState.incDepth()
         newState.changePlayer()
         return newState
-    def winPlayer(self,c):
-        length = len(self.board[0])-1
-        if (self.board[0][0] == c and c == "B") or (self.board[0][length] == c and c == "A"):
-            return True
+    def winPlayer(self, c):
+        if c == "A" and self.board[0][4] == "A":return True
+        if c == "B" and self.board[0][0] == "B":return True
         return False
     def win(self,c):
         return self.winPlayer(c)
@@ -60,7 +59,9 @@ class AITicTocState(object):
     def utility(self):
         if self.win("A"): return  1000
         if self.win("B"): return -1000
-        else: return 0
+        distancia_A = length = 4 - self.board[0].index("A")
+        distancia_B = self.board[0].index("B")
+        return distancia_B - distancia_A
     def __str__(self):
         return str(self.board[0])
 class AITicTocProblem(AISearchProblem):

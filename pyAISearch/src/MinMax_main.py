@@ -12,8 +12,9 @@ def chooseMinLocation(mm, state):
     minP = None
     for pos in state.freeLocations():
         newState = state.movePlayer(pos)
-        tree.append((copy.deepcopy(state), copy.deepcopy(newState)))
         v = mm.maxValue(newState)
+        tree.append((copy.deepcopy(state), copy.deepcopy(newState), v))
+        
         if v < minV:
             minV = v
             minP = pos
@@ -23,7 +24,6 @@ def play(mm):
     s=AITicTocState("A")
     while not s.isTerminal():
         print(s)
-        user_moves.append(copy.deepcopy(s))
         r=0
         c=int(input("col="))
         freeLocations = s.freeLocations()
@@ -32,6 +32,7 @@ def play(mm):
             c=int(input("col="))
         s.setPlayer((r,c))
         s.changePlayer()
+        user_moves.append(copy.deepcopy(s))
         if s.isTerminal(): break
         print(s)
         pos, v = chooseMinLocation(mm, s)
@@ -50,34 +51,39 @@ def play(mm):
 def print_tree(tree, user_moves,final_move):
     arbol = defaultdict(list)
 
-    found = False
-    key_tree = None
-    for padre, hijo in tree:
+    for padre, hijo, v in tree:
+        found = False
         for key in arbol.keys():
             if key.board == padre.board:
+                arbol[key].append((hijo, v))
                 found = True
-                key_tree = key
-        if found:
-            arbol[key_tree].append(hijo)
-            found = False
-        else:
-            arbol[padre].append(hijo)
+                break
+        if not found:
+            arbol[padre].append((hijo, v))
 
     nivel = 0
 
     print()
     print("Árbol completo:")
     for move in user_moves:
+        current_parent = None
+        for key in arbol.keys():
+            if key.board == move.board:
+                current_parent = key
+                break
+    
         if nivel == 0:
             print("Estado inicial:")
         else:
             print("Movimiento elegido:")
         print(nivel * "\t" + str(move.board))
         print("Movimiento del usuario:")
-        print(nivel * "\t" + str(list(arbol.keys())[nivel]))
-        print("Posibles movimientos de la IA:")
-        for state in arbol[list(arbol.keys())[nivel]]:
-            print((nivel + 1) * "\t" + str(state))
+        if current_parent:
+            print(nivel * "\t" + str(current_parent.board))
+        print("Posibles movimientos de la IA con valores:")
+        if current_parent:
+            for child, value in arbol[current_parent]:
+                print((nivel + 1) * "\t" + f"{child.board} (Valor: {value})")
         nivel += 1
 
     print("Estado final: " + str(final_move.board))
@@ -87,3 +93,4 @@ if __name__ == '__main__':
     mm=AIMinMax(p)
     final_move=play(mm)
     print_tree(tree, user_moves, final_move)
+
