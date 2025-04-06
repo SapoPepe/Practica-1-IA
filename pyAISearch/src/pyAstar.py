@@ -12,8 +12,22 @@ if __name__ == '__main__':
         cn=sg.getCurrentNode()
         while cn.getFather():
             print(cn.getState())
+            print(f"Acción realizada: {cn.action}")
+            list_explored = [elem.state.towers for elem in sg.explored]
+            print(f"Lista expandidos: {list_explored}")
+            print(f"Valor de f:{cn.getF()}")
+            print(f"Valor de g: {cn.depth}")
+            print(f"Valor de h:{cn.getState().getH()}")
             cn=cn.getFather()
+        print()
+        print("Estado inicial:")
         print(pp.state)
+        list_explored = [elem.state.towers for elem in sg.explored]
+        print(f"Lista expandidos: {list_explored}")
+        print(f"Valor de f:{cn.getF()}")
+        print(f"Valor de g: {cn.depth}")
+        print(f"Valor de h:{pp.state.getH()}")
+
 
         print("Arbol completo:")
 
